@@ -1,28 +1,41 @@
 package com.androidadvance.ultimateandroidtemplaterx.di.component;
-import com.androidadvance.ultimateandroidtemplaterx.BaseApplication;
+
+import android.app.Application;
+import android.content.Context;
 import com.androidadvance.ultimateandroidtemplaterx.data.local.PreferencesHelper;
 import com.androidadvance.ultimateandroidtemplaterx.data.remote.APIService;
-import com.androidadvance.ultimateandroidtemplaterx.data.remote.UnauthorisedInterceptor;
+import com.androidadvance.ultimateandroidtemplaterx.di.ApplicationContext;
 import com.androidadvance.ultimateandroidtemplaterx.di.module.ApplicationModule;
-import com.androidadvance.ultimateandroidtemplaterx.view.fragment.DetailPresenter;
-import com.androidadvance.ultimateandroidtemplaterx.view.main.MainPresenter;
+import com.androidadvance.ultimateandroidtemplaterx.view.fragment.build.BuildPresenter;
+import com.androidadvance.ultimateandroidtemplaterx.view.fragment.menu.MenuPresenter;
+import com.androidadvance.ultimateandroidtemplaterx.view.fragment.placeholder.PlaceholderPresenter;
+import com.androidadvance.ultimateandroidtemplaterx.view.fragment.status.StatusPresenter;
 import dagger.Component;
+import javax.inject.Named;
 import javax.inject.Singleton;
 import org.greenrobot.eventbus.EventBus;
 
-@Singleton
-@Component(modules = { ApplicationModule.class })
-public interface ApplicationComponent {
+@Singleton @Component(modules = { ApplicationModule.class }) public interface ApplicationComponent {
 
-  void inject(MainPresenter mainPresenter);
-  void inject(DetailPresenter detailPresenter);
+  void inject(MenuPresenter menuPresenter);
 
-  void inject(BaseApplication baseApplication);
-  void inject(UnauthorisedInterceptor unauthorisedInterceptor);
+  void inject(BuildPresenter buildPresenter);
 
-  APIService apiService();
+  void inject(StatusPresenter statusPresenter);
+
+  void inject(PlaceholderPresenter placeholderPresenter);
+
+  @ApplicationContext Context context();
+
+  Application application();
+
+  @Named("cached") APIService apiService();
+
+  @Named("non_cached") APIService apiServiceNonCached();
+
   EventBus eventBus();
+
   PreferencesHelper prefsHelper();
-
-
+  
+  //DatabaseHelper databaseHelper();
 }
